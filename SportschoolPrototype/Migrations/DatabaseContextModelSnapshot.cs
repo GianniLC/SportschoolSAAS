@@ -65,6 +65,9 @@ namespace SportschoolPrototype.Migrations
                     b.Property<int?>("CourseID")
                         .HasColumnType("int");
 
+                    b.Property<int>("TimesLeft")
+                        .HasColumnType("int");
+
                     b.Property<string>("firstname")
                         .HasColumnType("nvarchar(max)");
 
@@ -77,6 +80,8 @@ namespace SportschoolPrototype.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseID");
+
+                    b.HasIndex("subscriptionId");
 
                     b.ToTable("Member", (string)null);
                 });
@@ -111,9 +116,6 @@ namespace SportschoolPrototype.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("courseID")
                         .HasColumnType("int");
 
@@ -130,8 +132,6 @@ namespace SportschoolPrototype.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MemberId");
 
                     b.ToTable("Subscription", (string)null);
                 });
@@ -154,23 +154,19 @@ namespace SportschoolPrototype.Migrations
                     b.HasOne("SportschoolPrototype.Models.Course", null)
                         .WithMany("members")
                         .HasForeignKey("CourseID");
-                });
 
-            modelBuilder.Entity("SportschoolPrototype.Models.Subscription", b =>
-                {
-                    b.HasOne("SportschoolPrototype.Models.Member", null)
-                        .WithMany("subscriptions")
-                        .HasForeignKey("MemberId");
+                    b.HasOne("SportschoolPrototype.Models.Subscription", "subscriptions")
+                        .WithMany()
+                        .HasForeignKey("subscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("subscriptions");
                 });
 
             modelBuilder.Entity("SportschoolPrototype.Models.Course", b =>
                 {
                     b.Navigation("members");
-                });
-
-            modelBuilder.Entity("SportschoolPrototype.Models.Member", b =>
-                {
-                    b.Navigation("subscriptions");
                 });
 
             modelBuilder.Entity("SportschoolPrototype.Models.Subscription", b =>

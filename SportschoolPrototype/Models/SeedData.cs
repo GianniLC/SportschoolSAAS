@@ -24,11 +24,25 @@ namespace SportschoolPrototype.Models
                     return;   // DB has been seeded
                 }
 
+                var subscriptions = new Subscription[]
+                {
+                    new Subscription{courseID=1, title="1x per week", description="Used to gain entry once a week", weeklyUses=1},
+                    new Subscription{courseID=2, title="3x per week", description="Used to gain entry thrice a week", weeklyUses=3},
+                    new Subscription{courseID=3, title="Unlimited", description="Unlimited entry", weeklyUses=99},
+                }; 
+
+                foreach (Subscription c in subscriptions)
+                {
+                    context.subscriptions.Add(c);
+                }
+
+                context.SaveChanges();
+
                 var members = new Member[]
                 {
-                    new Member{firstname="Eva",lastname="Dekkers", subscriptionId=3},
-                    new Member{firstname="Gianni",lastname="Cimanez", subscriptionId=3},
-                    new Member{firstname="Bart", lastname="Kuppeveld", subscriptionId=2},
+                    new Member{firstname="Eva",lastname="Dekkers", subscriptionId=3, TimesLeft=99},
+                    new Member{firstname="Gianni",lastname="Cimanez", subscriptionId=3, TimesLeft=99},
+                    new Member{firstname="Bart", lastname="Kuppeveld", subscriptionId=2, TimesLeft=3},
                 };
 
                 foreach (Member s in members)
@@ -38,19 +52,6 @@ namespace SportschoolPrototype.Models
 
                 context.SaveChanges();
 
-                var subscriptions = new Subscription[]
-                {
-                    new Subscription{courseID=10, title="1x per week", description="Used to gain entry once a week", weeklyUses=1},
-                    new Subscription{courseID=10, title="3x per week", description="Used to gain entry thrice a week", weeklyUses=3},
-                    new Subscription{courseID=10, title="Unlimited", description="Unlimited entry", weeklyUses=99},
-                };
-
-                foreach (Subscription c in subscriptions)
-                {
-                    context.subscriptions.Add(c);
-                }
-
-                context.SaveChanges();
 
                 var personel = new Personel[]
                 {
@@ -81,6 +82,8 @@ namespace SportschoolPrototype.Models
                 {
                     context.courses.Add(course);
                 }
+
+                context.SaveChanges();
             }
         }
     }

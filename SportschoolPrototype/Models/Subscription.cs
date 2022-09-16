@@ -1,4 +1,6 @@
-﻿namespace SportschoolPrototype.Models
+﻿using System.ComponentModel;
+
+namespace SportschoolPrototype.Models
 {
     public class Subscription
     {
@@ -6,6 +8,8 @@
 
         public int? courseID { get; set; }
         public string? title { get; set; }
+
+        [DisplayName("Subscription description")]
         public string? description { get; set; }
 
         public int? weeklyUses { get; set; }
